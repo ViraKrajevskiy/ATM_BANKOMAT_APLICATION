@@ -1,0 +1,19 @@
+{
+    "en":{
+        "LanguageChoose":"Welcome",
+        "ChoosingLanguage":"To select English, press EN"
+    },
+    "ru":{
+        "ВыборЯзыка":"Добро пожаловать",
+        "ВыбираетЯзык":"Чтоб выбрать русский язык нажмите на RU.",
+        "МенюОсновное1":"1.Об компанни.",
+        "МенюОсновное2":"2.Просмотр курса.",
+        "МенюОсновное3":"3.Пополнение"
+
+    },
+    "uz":{
+        "TilniTanlovi":"Xush kelibsiz",
+        "TilniTanlaydi":"Ozbek tilini tanlash uchun UZ ni bosing.",
+        "":""
+    }
+}
