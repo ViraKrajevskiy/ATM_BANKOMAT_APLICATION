@@ -1,46 +1,39 @@
-import json
-
-def load_translations():
-    with open("translations.json", encoding="utf-8") as f:
-        return json.load(f)
-
-def choose_language_numbered():
-    translations = load_translations()
-
-    lang_codes = list(translations.keys())
-
-    print("\nВыберите язык:\n")
-    for idx, code in enumerate(lang_codes, start=1):
-        lang = translations[code]
-        print(f"{idx}. [{code.upper()}] {lang['LanguageWelcome']} — {lang['ChooseLanguage']}")
-
-    choice = input("\nВведите номер языка: ")
-
-    try:
-        index = int(choice) - 1
-        if 0 <= index < len(lang_codes):
-            selected_lang = lang_codes[index]
-            print(f"\n✅ Вы выбрали: {translations[selected_lang]['LanguageWelcome']}")
-            show_main_menu(selected_lang, translations)
-        else:
-            print("❌ Номер вне диапазона.")
-    except ValueError:
-        print("❌ Введите только цифру.")
-
-def show_main_menu(lang_code, translations):
-    """
-Показываем основное меню в зависимости от выбранного языка
-    """
-    print("\nМеню:\n")
-    menu_items = [
-        "MenuOption1",  # О компании
-        "MenuOption2",  # Просмотр курса
-        "MenuOption3"   # Пополнение
-    ]
-
-    for idx, item in enumerate(menu_items, start=1):
-        print(f"{idx}. {translations[lang_code].get(item, item)}")
-
-if __name__ == "__main__":
-    choose_language_numbered()
-    
+{
+    "en": {
+        "LanguageWelcome": "Welcome",
+        "ChooseLanguage": "To select English, press EN",
+        "MenuOption": [
+            "1. About company",
+            "2. View course",
+            "3. Pay to phone number",
+            "4. Tranzaction",
+            "5. Connect message to phone number",
+            "6. Change card PIN ."
+        ]
+    },
+    "ru": {
+        "Приветствие": "Добро пожаловать",
+        "ВыборЯзка": "Чтоб выбрать русский язык нажмите на RU.",
+        "МенюВыбора": [
+            "1. Об компании.",
+            "2. Просмотр курса.",
+            "3. Изменить PIN карты.",
+            "4. Транзакции с картой.",
+            "5. Подключить смс на телефон.",
+            "6. Вернуться на выбор языка.",
+            "7. Выход."
+        ]
+    },
+    "uz": {
+        "LanguageWelcome": "Xush kelibsiz",
+        "ChooseLanguage": "Ozbek tilini tanlash uchun UZ ni bosing.",
+        "MenuOption":[
+            "1. Kompaniya haqida malumot.",
+            "2. Kursni ko‘rish.",
+            "3. Telefonni toldirish.",
+            "4. Tranzaksiyalar.",
+            "5. Telefonga SMS ulash.",
+            "6. Karta PIN codini ozgartirish."
+        ]
+    }
+}
