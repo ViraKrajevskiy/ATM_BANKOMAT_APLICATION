@@ -1,24 +1,13 @@
-from backend.Functions.main_menu.menu_phone.menu_phone import connect_sms_phone
+from backend.Functions.account_user.change_pin import change_pin
 from backend.Functions.main_menu.translate.translate import translations, select_language
+from backend.Functions.menu_phone_sms.menu_phone import connect_sms_phone
+from backend.Functions.see_course_and_change.see_course import see_course_and_change
+from backend.Functions.transaction.tranzactions import tranzactions
 
 
 def about_us(lang):
     print(translations[lang]['AboutUs'])
     input(translations[lang]['BackToMenu'])
-
-
-def see_course_and_change(lang):
-    print(translations[lang]['CourseInfo'])
-    input(translations[lang]['BackToMenu'])
-
-
-def change_pin(lang):
-    print(translations[lang]['ChangePin'])
-    input(translations[lang]['BackToMenu'])
-
-
-
-
 
 
 def main_menu():

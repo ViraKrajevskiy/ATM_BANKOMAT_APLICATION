@@ -1,20 +1,24 @@
 import re
+import json
+import sys
+import os
+
+from database import conn
+
 
 class MoneyNominal:
-    Money_nominal = {
-        1000:"1000 сум",
-        2000:"2000 сум",
-        5000:"5000 сум",
-        10000:"10000 сум",
-        20000:"20000 сум",
-        50000:"50000 сум",
-        100000:"100000 сум",
-        200000:"200000 сум"
-    }
+
+    @classmethod
+    def load_from_db(cls):
+        cur = conn.cursor()
+        cur.execute("SELECT nominal, description FROM money_nominal;")
+        data = cur.fetchall()
+        cur.close()
+        cls.Money_nominal = {nominal: desc for nominal, desc in data}
 
     @classmethod
     def get_money_nominal(cls, money_nomi):
-        return cls.Money_nominal.get(money_nomi, "Неизвестный_номинал")
+        return cls.Money_nominal.get(money_nomi, "Неизвестный номинал")
 
 class CardMoney:
     def __init__(self, card_id, card_name, card_number, card_work_time, password, balance, card_type, phone_number):
@@ -30,6 +34,7 @@ class CardMoney:
         # Валидация при создании
         self._validate_card_number()
         self._validate_phone_number()
+
 
     def _validate_card_number(self):
         # Проверяем, что номер карты состоит из 16 цифр
@@ -131,4 +136,9 @@ def input_wallet(card: CardMoney):
             print("Ошибка ввода. Повторите.")
 
     return wallet
+
+
+
+
+
 

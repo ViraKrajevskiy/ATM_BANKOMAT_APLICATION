@@ -14,6 +14,7 @@ class Role:
     def get_role_name(cls, role_id):
         return cls.roles.get(role_id, "Неизвестная_роль")
 
+
 class Account:
     _id_counter = count(1)
 
@@ -33,8 +34,15 @@ class Account:
                 f"Баланс карты: {self.card.balance} сум\n"
                 f"Наличные: {self.total_cash()} сум")
 
+
+class Phone:
+    def __init__(self, number: str, balance: float):
+        self.number = number
+        self.balance = balance
+
+
 class BaseUser:
-    def __init__(self, firstname, surname, lastname, phone, paper_money, role_id, card: CardMoney, wallet: list[Money], account: Account):
+    def __init__(self, firstname, surname, lastname,  phone: Phone, paper_money, role_id, card: CardMoney, wallet: list[Money], account: Account):
         if role_id not in Role.roles:
             raise ValueError(f"Неверный role_id: {role_id}. Допустимые значения: {list(Role.roles.keys())}")
 
@@ -60,7 +68,6 @@ class BaseUser:
         return self.paper_money + self.card.balance + sum(m.total_balance() for m in self.wallet)
 
 
-
 def input_money():
     money = Money()
     print("Добавление наличных купюр. Для окончания введите пустой номинал.")
@@ -83,13 +90,15 @@ def input_money():
             print("Ошибка ввода. Повторите.")
     return money
 
+
 def input_baseuser():
     while True:
         try:
             firstname = input("Введите имя: ")
             surname = input("Введите фамилию: ")
             lastname = input("Введите отчество: ")
-            phone = input("Введите телефон: ")
+            phone_number = input("Введите телефон: ")
+            phone_obj = Phone(number=phone_number, balance=0.0)  # баланс по умолчанию 0
 
             # Роль
             print("Выберите роль:")
@@ -109,20 +118,14 @@ def input_baseuser():
             # Создаем кошелек как список наличных (если нужно, можно расширить)
             wallet = [cash]
 
-            # Создаем аккаунт — только если роль 1
-            account = None
-            if role_id == 1:
-                account = Account(user=BaseUser.__new__(BaseUser), card=card, wallet=wallet)
-                # Чтобы не создавать рекурсию, используем __new__, потом инициализируем
-                # Но проще сначала создать user без аккаунта, потом добавить аккаунт
-            user = BaseUser(firstname, surname, lastname, phone, cash.total_balance(), role_id, card, wallet, account)
+            # Сначала создаем пользователя без аккаунта
+            user = BaseUser(firstname, surname, lastname, phone_obj, cash.total_balance(), role_id, card, wallet, None)
 
-            # Если роль 1, то обновим account.user на созданного пользователя
+            # Если роль 1, то создаем аккаунт и связываем его с пользователем
             if role_id == 1:
-                user.account.user = user
+                account = Account(user=user, card=card, wallet=wallet)
+                user.account = account
 
             return user
         except ValueError as e:
             print(f"Ошибка: {e}. Попробуйте снова.\n")
-
-    
